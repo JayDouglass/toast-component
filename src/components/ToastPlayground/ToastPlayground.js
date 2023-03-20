@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from "../Button";
 import ToastShelf from "../ToastShelf";
-import { ToastsContext } from "../ToastProvider/ToastProvider";
+import { useToasts } from "../ToastProvider/ToastProvider";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -11,7 +11,7 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
-  const { addToast, removeAll } = React.useContext(ToastsContext);
+  const { addToast, removeAll } = useToasts();
   useEscapeKey(removeAll);
 
   const handlePopToast = () => {

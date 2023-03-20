@@ -2,6 +2,12 @@ import React from "react";
 
 export const ToastsContext = React.createContext([]);
 
+export const useToasts = () => {
+  const context = React.useContext(ToastsContext);
+
+  return context;
+};
+
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
@@ -21,6 +27,9 @@ function ToastProvider({ children }) {
     setToasts([]);
   }, []);
 
+  // https://kentcdodds.com/blog/how-to-use-react-context-effectively
+  // https://courses.joshwcomeau.com/joy-of-react/04-component-design/08.06-context-performance
+  // https://kentcdodds.com/blog/how-to-optimize-your-context-value
   const value = React.useMemo(() => {
     return {
       toasts,
@@ -30,7 +39,9 @@ function ToastProvider({ children }) {
     };
   }, [toasts, addToast, removeToast, removeAll]);
 
-  return <ToastsContext.Provider value={value}>{children}</ToastsContext.Provider>;
+  return (
+    <ToastsContext.Provider value={value}>{children}</ToastsContext.Provider>
+  );
 }
 
 export default ToastProvider;
