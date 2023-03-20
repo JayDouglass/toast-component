@@ -1,8 +1,8 @@
 import React from "react";
 
 import Button from "../Button";
-import Toast from "../Toast";
 import ToastShelf from "../ToastShelf";
+import { ToastsContext } from "../ToastProvider/ToastProvider";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -11,24 +11,12 @@ const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
-  const [toasts, setToasts] = React.useState([]);
-
-  const addToast = React.useCallback((toast) => {
-    const uniqueToast = {
-      id: Date.now(),
-      ...toast
-    };
-    setToasts((toasts) => [...toasts, uniqueToast]);
-  }, []);
-
-  const removeToast = React.useCallback((id) => {
-    setToasts((current) => current.filter((t) => t.id !== id));
-  }, []);
+  const { addToast } = React.useContext(ToastsContext);
 
   const handlePopToast = () => {
     addToast({
       message,
-      variant
+      variant,
     });
 
     reset();
@@ -46,7 +34,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toasts} onRemove={removeToast} />
+      <ToastShelf />
 
       <form
         onSubmit={(event) => {
