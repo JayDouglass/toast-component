@@ -17,13 +17,18 @@ function ToastProvider({ children }) {
     setToasts((current) => current.filter((t) => t.id !== id));
   }, []);
 
+  const removeAll = React.useCallback((id) => {
+    setToasts([]);
+  }, []);
+
   const value = React.useMemo(() => {
     return {
       toasts,
       addToast,
-      removeToast
-    }
-  }, [toasts, addToast, removeToast]);
+      removeToast,
+      removeAll,
+    };
+  }, [toasts, addToast, removeToast, removeAll]);
 
   return <ToastsContext.Provider value={value}>{children}</ToastsContext.Provider>;
 }
